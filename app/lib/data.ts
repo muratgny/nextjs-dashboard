@@ -60,7 +60,19 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
 
-    const data = await Promise.all([
+    //A common way to avoid waterfalls is to initiate all data requests at the same time - in parallel.
+// In JavaScript, you can use the Promise.all() or Promise.allSettled()
+// functions to initiate all promises at the same time. For example, in data.ts, we're using Promise.all() in the 
+// fetchCardData() function:
+
+// By using this pattern, you can:
+
+//     Start executing all data fetches at the same time, which is faster than waiting for each request to complete in a waterfall.
+//     Use a native JavaScript pattern that can be applied to any library or framework.
+
+// However, there is one disadvantage of relying only on this JavaScript pattern: what happens if one data request is slower than all the others? Let's find out more in the next chapter.
+    
+    const data = await Promise.all([ 
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
