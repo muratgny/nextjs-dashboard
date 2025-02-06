@@ -1,3 +1,5 @@
+The repository is used to learn nextjs using official repository with my own clear comments.
+
 ## Next.js App Router Course - Starter
 
 This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
