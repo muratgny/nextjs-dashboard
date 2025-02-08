@@ -9,6 +9,8 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
+// we re using dynamic rendering here. So, With dynamic rendering, your application is only as fast as your slowest data fetch.
+//look below function commented parts to understand it. While renderin UI not responds 
 export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.
