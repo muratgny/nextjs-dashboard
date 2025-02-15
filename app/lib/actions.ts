@@ -13,7 +13,8 @@ import { revalidatePath } from 'next/cache';//Next.js has a client-side router c
 //Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
 import postgres from 'postgres';
 import { redirect } from 'next/navigation';
-
+import { signIn } from '@/auth'; //used for authentication
+import { AuthError } from 'next-auth';//used for authentication
 
  
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
@@ -129,4 +130,25 @@ export async function updateInvoice(id: string, formData: FormData) {
   export async function deleteInvoice(id: string) {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
+  }
+
+
+
+  export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+  ) {
+    try {
+      await signIn('credentials', formData);
+    } catch (error) {
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case 'CredentialsSignin':
+            return 'Invalid credentials.';
+          default:
+            return 'Something went wrong.';
+        }
+      }
+      throw error;
+    }
   }
