@@ -9,6 +9,11 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {//to provie special website title seen on the tab on browser
+  title: 'Invoices ',//some part of the title will come from general layout.tsx file
+};
  
 export default async function Page(props: {
   searchParams?: Promise<{
